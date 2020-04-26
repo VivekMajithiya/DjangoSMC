@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends 'smc_app/base.html' %}
+{% block body_block %}
+  <h1>Welcom to SMC</h1>
+  <div class="basecontainer" id="messageBody">
+    <div class="containerc">
+      <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+      <p>Hello. How are you today?</p>
+      <span class="time-right">11:00</span>
+    </div>
+
+    <div class="containerc darker">
+      <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+      <p>Hey! I'm fine. Thanks for asking!</p>
+      <span class="time-left">11:01</span>
+    </div>
+
+    <div class="containerc">
+      <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+      <p>Sweet! So, what do you wanna do today?</p>
+      <span class="time-right">11:02</span>
+    </div>
+
+    <div class="containerc darker">
+      <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+      <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+      <span class="time-left">11:05</span>
+    </div>
+
+    <div class="containerc">
+      <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+      <p>Hello. How are you today?</p>
+      <span class="time-right">11:00</span>
+    </div>
+
+    <div class="containerc darker">
+      <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+      <p>Hey! I'm fine. Thanks for asking!</p>
+      <span class="time-left">11:01</span>
+    </div>
+
+
+  </div>
+
+  <div class="formdiv">
+    <form>
+      <div class="form-group">
+        <!-- <label for="Textinput" class="col-sm-1 col-form-label">Text</label> -->
+        <input type="text" class="form-control" id="Textinput" placeholder="Input your text here and press send">
+        <!-- <button type="submit" class="btn btn-primary frmbtn col-sm-1">Send</button> -->
+          <!-- <button type="submit" class="btn btn-primary frmbtn">Send</button> -->
+          <!-- <input type="text" class="form-control" id="Textinput" placeholder="Input your text here and press send"> -->
+      </div>
+      <button type="submit" class="btn btn-primary frmbtn">Send</button>
+    </form>
+  </div>
+
+  <script type="text/javascript">
+    var messageBody = document.querySelector('#messageBody');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+  </script>
+
+{% endblock %}
