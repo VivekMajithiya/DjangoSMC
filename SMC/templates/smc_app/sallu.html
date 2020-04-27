@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 {% extends 'smc_app/base.html' %}
+{% load static %}
 {% block body_block %}
   <h1>Welcom to SMC</h1>
   <div class="basecontainer" id="messageBody">
+    {% if chatdata %}
+      {% for data in chatdata %}
 
+        {% if data.name == 'M' %}
+          <div class="containerc">
+            <p><img src="{% static 'images/M.png' %}" alt="M">
+            <span style="font-size: 20px">{{ data.text }}</span> </p>
+          </div>
+        {% else %}
+         <div class="containerc darker">
+           <p><img src="{% static 'images/S1.png' %}" alt="S" class="right">
+             <span style="font-size: 20px; float: right;">{{ data.text }}</span></p>
+          </div>
+          {% endif %}
+          <!-- <p></p>{{ data.text }} -->
 
-
+      {% endfor %}
+    {% endif %}
   </div>
   <div class="formdiv">
-    <form>
+    <form action="{% url 'smc_app:sallu' %}" method="POST" autocomplete="off">
+      {% csrf_token %}
       <div class="form-group">
         <!-- <label for="Textinput" class="col-sm-1 col-form-label">Text</label> -->
-        <input type="text" class="form-control" id="Textinput" placeholder="Input your text here and press send">
+        <input type="text" class="form-control" name="Textinput" id="Textinput" placeholder="Input your text here and press send">
         <!-- <button type="submit" class="btn btn-primary frmbtn col-sm-1">Send</button> -->
           <!-- <button type="submit" class="btn btn-primary frmbtn">Send</button> -->
-          <!-- <input type="text" class="form-control" id="Textinput" placeholder="Input your text here and press send"> -->
+          <!-- <input type="text" class="form-control" id="Textinput" placeholder="Input your text here and press send or refresh button"> -->
       </div>
-      <button type="submit" class="btn btn-primary frmbtn">Send</button>
+      <button type="submit" class="btn btn-primary frmbtn">Send or Refresh</button>
     </form>
   </div>
 

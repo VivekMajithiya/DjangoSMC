@@ -1,12 +1,12 @@
 div.tranbox{
-  /* background-color: #fdfffc; */
-  background-image: url(../images/image2.jpg);
+  background-color: #6293ab;
+  /* background-image: url(../images/image2.jpg); */
   opacity: 0.9;
   color: black;
   background-size: cover;
   border-radius: 25px;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 div.tranbox p{
   font-weight: bold;
@@ -26,21 +26,22 @@ h1{
 }
 
 .basecontainer{
-  height: 400px;
+  height:600px;
   overflow-y: scroll;
+  /* border-radius: 50px; */
 }
 .containerc {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
   border-radius: 20px;
-  padding: 8px;
-  margin: 5px 0;
-  font-size: 11px;
+  padding: 5px;
+  margin: 2px 0;
+  font-size: 10px;
 }
 
 .darker {
   border-color: #ccc;
-  background-color: #ddd;
+  background-color: #81a6b9;
 }
 
 .containerc::after {
@@ -71,4 +72,8 @@ h1{
 .time-left {
   float: left;
   color: #999;
+}
+
+.tinput{
+  font-size: 20px;
 }
