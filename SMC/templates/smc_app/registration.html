@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'smc_app/base.html' %}
+{% load static %}
+{% block body_block %}
+  {% if registered %}
+    <h1>Thank you for registeration with us!!</h1>
+  {% else %}
+    <h1>Register Here!!</h1>
+    <h3>Fill out the form :</h3>
+
+    <form enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      {{ user_form.as_p }}
+      {{ profile_form.as_p }}
+      <input type="submit" value="Register">
+    </form>
+  {% endif %}
+{% endblock %}

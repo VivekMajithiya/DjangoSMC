@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'smc_app/base.html' %}
+{% load static %}
+{% block body_block %}
+
+  <div class="loginformdiv">
+    <form action="{% url 'smc_app:userlogin' %}" method="POST" autocomplete="off">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">User Name</label>
+        <input type="text" class="form-control" name="username" id="username" aria-describedby="usernamehelp" placeholder="Enter User Name">
+        <small id="emailHelp" class="form-text text-muted">Please input your user name - case sensitive</small>
+      </div>
+      <div class="form-group">
+        <label for="InputPassword1">Password</label>
+        <input type="password" class="form-control" name="InputPassword1" id="InputPassword1" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+</form>
+      <div>
+        <br>
+        {% if loginmesssage %}
+          <p>{{ loginmesssage }}</p>
+        {% endif %}
+      </div>
+  </div>
+
+{% endblock %}

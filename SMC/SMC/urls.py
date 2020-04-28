@@ -19,7 +19,7 @@ from django.conf.urls import include
 from smc_app import views
 
 urlpatterns = [
-    path('',views.index,name='index'),
+    path('',views.userlogin,name='userlogin'),
     path('admin/', admin.site.urls),
     path('smc_app/',include('smc_app.urls'))
 ]
