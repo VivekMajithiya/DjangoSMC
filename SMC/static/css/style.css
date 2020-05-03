@@ -24,7 +24,8 @@ h1{
 }
 
 .formdiv{
-  padding-top: 10px;
+  padding-top: 5px;
+  margin-bottom: 5px;
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -72,14 +73,36 @@ h1{
   margin-right:0;
 }
 
+.containerc img.chatimage{
+  float: left;
+  max-width: 150px;
+  max-height: 150px;
+  width: 100%;
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 2%;
+}
+
+.containerc img.chatimager{
+  float: right;
+  max-width: 150px;
+  max-height: 150px;
+  width: 100%;
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 2%;
+}
+
 .time-right {
   float: right;
-  color: #aaa;
+  color: #81a6b9;
+  margin-right: 5px;
 }
 
 .time-left {
   float: left;
-  color: #999;
+  color: #f1f1f1;
+  margin-left: 5px;
 }
 
 .tinput{

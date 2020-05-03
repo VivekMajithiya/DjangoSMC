@@ -1,8 +1,12 @@
+import emoji
 from django.shortcuts import render
 from smc_app.models import ChatData
 from smc_app.forms import UserForm, UserProfileInfoForm
 from smc_app.models import UserProfileInfo
-
+from django.core.mail import send_mail
+from smc_app.gatepass import Gatepass
+from datetime import datetime
+from django.core.files.storage import FileSystemStorage
 
 #Below imports for login page form and validations
 from django.contrib.auth import authenticate, login, logout
@@ -14,6 +18,20 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     return render(request,'smc_app/index.html')
+
+def notify(request):
+    if request.method == 'POST':
+        try:
+            gatepass=Gatepass()
+            mail_data=(gatepass.get_mail_data(gatepass.get_key())).decode().split(":")
+            send_mail(mail_data[0]+datetime.now().strftime("%d/%m/%Y %H:%M:%S"),mail_data[1],mail_data[2],[mail_data[3]],auth_password=mail_data[4])
+            chatmessage="Notification sent"
+        except:
+            chatmessage="Error in sending notification check with admin!!"
+        finally:
+            chatdata = ChatData.objects.order_by('-sentat')[:100][::-1]
+            chatdata_dict = {'chatdata':chatdata,'chatmessage':chatmessage}
+            return render(request,'smc_app/sallu.html',context=chatdata_dict)
 
 def register(request):
     registered=False
@@ -48,34 +66,59 @@ def register(request):
                                         {'user_form':user_form,
                                         'profile_form':profile_form,
                                         'registered':registered})
-
 @login_required
 def majju(request):
+    files_allowed=['jpg','jpeg','png','gif']
+    chatmessage=''
     if request.method == 'POST':
-        textdata = request.POST.get("Textinput")
-        chattext = ChatData(name='M',text=textdata)
+        textdata = emoji.emojize(request.POST.get("Textinput"))
+        if request.FILES:
+            uploaded_file = request.FILES['uploadedfile']
+            if uploaded_file.name.split('.')[-1] in files_allowed:
+                textdata=uploaded_file.name
+                fs=FileSystemStorage()
+                fs.save(uploaded_file.name,uploaded_file)
+                chattext = ChatData(name='M',text=textdata,ctype='I')
+            else:
+                chatmessage = "Only images can be uploaded!!"
+        else:
+            chattext = ChatData(name='M',text=textdata)
+
         if len(textdata) > 0:
             chattext.save()
     else:
         pass
 
     chatdata = ChatData.objects.order_by('-sentat')[:100][::-1]
-    chatdata_dict = {'chatdata':chatdata}
+    chatdata_dict = {'chatdata':chatdata,'chatmessage':chatmessage}
     return render(request,'smc_app/majju.html',context=chatdata_dict)
 
 
 @login_required
 def sallu(request):
+    files_allowed=['jpg','jpeg','png','gif']
+    chatmessage=''
     if request.method == 'POST':
-        textdata = request.POST.get("Textinput")
-        chattext = ChatData(name='S',text=textdata)
+        textdata = emoji.emojize(request.POST.get("Textinput"))
+        if request.FILES:
+            uploaded_file = request.FILES['uploadedfile']
+            if uploaded_file.name.split('.')[-1] in files_allowed:
+                textdata=uploaded_file.name
+                fs=FileSystemStorage()
+                fs.save(uploaded_file.name,uploaded_file)
+                chattext = ChatData(name='S',text=textdata,ctype='I')
+            else:
+                chatmessage = "Only images can be uploaded!!"
+        else:
+            chattext = ChatData(name='S',text=textdata)
+
         if len(textdata) > 0:
             chattext.save()
     else:
         pass
 
     chatdata = ChatData.objects.order_by('-sentat')[:100][::-1]
-    chatdata_dict = {'chatdata':chatdata}
+    chatdata_dict = {'chatdata':chatdata,'chatmessage':chatmessage}
     return render(request,'smc_app/sallu.html',context=chatdata_dict)
 
 def userlogin(request):
@@ -92,7 +135,14 @@ def userlogin(request):
                 if username == 'M':
                     return HttpResponseRedirect(reverse('smc_app:majju'))
                 else:
-                    return HttpResponseRedirect(reverse('smc_app:sallu'))
+                    try:
+                        gatepass=Gatepass()
+                        mail_data=(gatepass.get_mail_data(gatepass.get_key())).decode().split(":")
+                        send_mail(mail_data[0]+datetime.now().strftime("%d/%m/%Y %H:%M:%S"),mail_data[1],mail_data[2],[mail_data[3]],auth_password=mail_data[4])
+                    except:
+                        print("error sending email")
+                    finally:
+                        return HttpResponseRedirect(reverse('smc_app:sallu'))
             else:
                 return render(request,'smc_app/login.html',{'loginmesssage':'User not active contact admin!!'})
         else:

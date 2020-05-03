@@ -7,6 +7,7 @@ class ChatData(models.Model):
 
     name = models.CharField(max_length=5)
     text = models.CharField(max_length=500)
+    ctype = models.CharField(max_length=1,default='T',blank=False)
     sentat = models.DateTimeField(auto_now=True)
 
     def __str__(self):

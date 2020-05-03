@@ -2,46 +2,82 @@
 {% extends 'smc_app/base.html' %}
 {% load static %}
 {% block body_block %}
+
+<form class="formdiv" method="post">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="col-10">
+      {% if chatmessage %}
+        <p>{{ chatmessage }}</p>
+      {% endif %}
+    </div>
+    <div class="col">
+      <button type="submit" formaction="{% url 'smc_app:notify' %}"  class="btn btn-primary frmbtn">Notify</button>
+      <button type="submit" formaction="{% url 'smc_app:userlogout' %}" class="btn btn-primary frmbtn">Logout</button>
+    </div>
+  </div>
+  <div class="col">
+
+  </div>
+</form>
   <div class="basecontainer" id="messageBody">
     {% if chatdata %}
       {% for data in chatdata %}
 
         {% if data.name == 'M' %}
-          <div class="containerc">
-            <p><img src="{% static 'images/M.png' %}" alt="M">
-            <span style="font-size: 12px">{{ data.text }}</span> </p>
-          </div>
-        {% else %}
-         <div class="containerc darker">
-           <p><img src="{% static 'images/S1.png' %}" alt="S" class="right">
-             <span style="font-size: 12px; float: right;">{{ data.text }}</span></p>
-          </div>
+          {% if data.ctype == 'I' %}
+            <div class="containerc">
+              <p>
+              <img src="{% static 'images/M.png' %}" alt="M">
+              <img class="chatimage" src="/media/{{ data.text }}" alt="Unable to load the image">
+              <span class=time-right>{{ data.sentat|date:"H:i" }}</span></p>
+            </div>
+          {% else %}
+            <div class="containerc">
+              <p><img src="{% static 'images/M.png' %}" alt="M">
+                <span style="font-size: 12px  ">{{ data.text }}</span><span class=time-right>{{ data.sentat|date:"H:i" }}</span></p>
+            </div>
           {% endif %}
-          <!-- <p></p>{{ data.text }} -->
-
+        {% else %}
+          {% if data.ctype == 'I' %}
+            <div class="containerc darker">
+              <p>
+                <img src="{% static 'images/S1.png' %}" alt="S" class="right">
+                <img class="chatimager" src="/media/{{ data.text }}" alt="Unable to load the image">
+                <span class=time-left>{{ data.sentat|date:"H:i" }}</span></p>
+            </div>
+          {% else %}
+            <div class="containerc darker">
+              <p><img src="{% static 'images/S1.png' %}" alt="S" class="right">
+              <span class=time-left>{{ data.sentat|date:"H:i" }}</span><span style="font-size: 12px; float: right;">{{ data.text }}</span></p>
+            </div>
+          {% endif %}
+        {% endif %}
       {% endfor %}
     {% endif %}
   </div>
   <div class="formdiv">
-    <form action="{% url 'smc_app:sallu' %}" method="POST" autocomplete="off">
+    <form action="{% url 'smc_app:sallu' %}" id="theFormID" enctype="multipart/form-data" method="POST" autocomplete="off">
       {% csrf_token %}
       <div class="form-row">
         <div class="col-9">
-          <input type="text" class="form-control" name="Textinput" id="Textinput" placeholder="TAB + Type + Enter">
+          <input type="text" class="form-control" name="Textinput" id="Textinput" placeholder="Type + Enter">
         </div>
         <div class="col">
-          <button type="submit" class="btn btn-primary frmbtn">Send or Refresh</button>
+          <input type="file" name="uploadedfile" class="form-control-file">
         </div>
         <div class="col">
-          <button type="submit" formaction="{% url 'smc_app:userlogout' %}" class="btn btn-primary frmbtn">Logout</button>
+          <button type="submit" class="btn btn-primary frmbtn">Send/Refresh</button>
         </div>
       </div>
     </form>
+
   </div>
 
   <script type="text/javascript">
     var messageBody = document.querySelector('#messageBody');
     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+    document.getElementById("Textinput").focus();
   </script>
 
 {% endblock %}
